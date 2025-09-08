@@ -1,5 +1,7 @@
+@preprocessor esmodule
+
 @{% 
-const moo = require('moo');
+import moo from 'moo';
 
 // Define lexer tokens with custom whitespace handling
 const lexer = moo.compile({

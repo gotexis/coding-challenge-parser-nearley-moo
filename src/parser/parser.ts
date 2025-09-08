@@ -1,5 +1,7 @@
-import * as nearley from 'nearley';
-const grammar = require('./grammar.js');
+import nearley from 'nearley';
+
+// @ts-ignore
+import grammar from './grammar.js';
 
 export type ASTNode =
   | { type: 'number'; value: number }

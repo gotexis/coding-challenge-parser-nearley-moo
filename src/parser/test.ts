@@ -1,4 +1,4 @@
-import { parseAndEvaluate } from './index';
+import { parseAndEvaluate } from './parser.ts';
 
 const tests = [
   { input: '1 + 2 = 3', expected: true },

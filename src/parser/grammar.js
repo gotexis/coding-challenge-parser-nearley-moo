@@ -1,9 +1,8 @@
 // Generated automatically by nearley, version 2.20.1
 // http://github.com/Hardmath123/nearley
-(function () {
 function id(x) { return x[0]; }
  
-const moo = require('moo');
+import moo from 'moo';
 
 // Define lexer tokens with custom whitespace handling
 const lexer = moo.compile({
@@ -29,9 +28,8 @@ lexer.next = (function(next) {
     return tok;
   };
 })(lexer.next);
-var grammar = {
-    Lexer: lexer,
-    ParserRules: [
+let Lexer = lexer;
+let ParserRules = [
     {"name": "expr", "symbols": ["sum", (lexer.has("eq") ? {type: "eq"} : eq), "sum"], "postprocess": d => ({ type: "eq", left: d[0], right: d[2] })},
     {"name": "expr", "symbols": ["sum", (lexer.has("neq") ? {type: "neq"} : neq), "sum"], "postprocess": d => ({ type: "neq", left: d[0], right: d[2] })},
     {"name": "expr", "symbols": ["sum"]},
@@ -43,12 +41,6 @@ var grammar = {
     {"name": "product", "symbols": ["factor"]},
     {"name": "factor", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": d => ({ type: "number", value: parseFloat(d[0].value) })},
     {"name": "factor", "symbols": [(lexer.has("lparen") ? {type: "lparen"} : lparen), "expr", (lexer.has("rparen") ? {type: "rparen"} : rparen)], "postprocess": d => d[1]}
-]
-  , ParserStart: "expr"
-}
-if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
-   module.exports = grammar;
-} else {
-   window.grammar = grammar;
-}
-})();
+];
+let ParserStart = "expr";
+export default { Lexer, ParserRules, ParserStart };
