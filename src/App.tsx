@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { parseAndEvaluate, type ASTNode } from './parser/parser'
 
 function App() {
@@ -9,11 +9,14 @@ function App() {
     error?: string
   }>({})
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const parseResult = parseAndEvaluate(input)
-    setResult(parseResult)
-  }
+  useEffect(() => {
+    if (input.trim()) {
+      const parseResult = parseAndEvaluate(input)
+      setResult(parseResult)
+    } else {
+      setResult({})
+    }
+  }, [input])
 
   const renderAST = (node: ASTNode, depth = 0): JSX.Element => {
     const indent = depth * 20
@@ -65,29 +68,21 @@ function App() {
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
             <div>
               <label htmlFor="expression" className="block text-sm font-medium text-gray-700 mb-2">
                 Enter an expression:
               </label>
-              <div className="flex space-x-2">
-                <input
-                  id="expression"
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., 2 + 3 * 2 = 8"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-                >
-                  Parse
-                </button>
-              </div>
+              <input
+                id="expression"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="e.g., 2 + 3 * 2 = 8"
+              />
             </div>
-          </form>
+          </div>
           
           <div className="mt-4 text-sm text-gray-600">
             <p><strong>Supported operations:</strong> +, -, *, /, =, !=</p>
